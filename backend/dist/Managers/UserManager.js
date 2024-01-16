@@ -47,11 +47,11 @@ class UserManager {
         socket.on("offer", ({ sdp, roomId }) => {
             console.log("inside offer");
             // console.log("inside roomId", roomId);
-            this.roomManager.onOffer(roomId, sdp);
+            this.roomManager.onOffer(roomId, sdp, socket.id);
         });
         socket.on("answer", ({ sdp, roomId }) => {
             console.log("inside answer");
-            this.roomManager.onAnswer(roomId, sdp);
+            this.roomManager.onAnswer(roomId, sdp, socket.id);
         });
         socket.on("add-ice-candidate", ({ candidate, roomId, type }) => {
             this.roomManager.onIceCandidate(roomId, socket.id, candidate, type);

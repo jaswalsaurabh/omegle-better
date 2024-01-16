@@ -57,6 +57,7 @@ function Room({
           socket.emit("add-ice-candidate", {
             candidate: e.candidate,
             type: "sender",
+            roomId,
           });
           // pc.addIceCandidate(e.candidate);
         }
@@ -101,12 +102,16 @@ function Room({
           socket.emit("add-ice-candidate", {
             candidate: e.candidate,
             type: "receiver",
+            roomId,
           });
           // pc.addIceCandidate(e.candidate);
         }
       };
 
-      pc.ontrack = ({ track, type }) => {
+      pc.ontrack = (e) => {
+        console.log("this is on track ,",e);
+        
+        const {type,track} = e
         if (type == "audio") {
           // setRemoteAudioTrack(track);
           // @ts-ignore
@@ -144,12 +149,12 @@ function Room({
       console.log("{ candidate, type }", { candidate, type });
 
       if (type == "sender") {
-        setSendingPC((pc) => {
+        setReceivingPC((pc) => {
           pc?.addIceCandidate(candidate);
           return pc;
         });
       } else {
-        setReceivingPC((pc) => {
+        setSendingPC((pc) => {
           pc?.addIceCandidate(candidate);
           return pc;
         });

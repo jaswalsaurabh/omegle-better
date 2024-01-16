@@ -59,14 +59,22 @@ export class RoomManager {
     candidate: any,
     type: "sender" | "receiver"
   ) {
+    console.log("><><><><><><><>< ICE CANDIDATE");
+    // console.log("roomId", roomId);
+    // console.log("senderSocketId", senderSocketId);
+    // console.log("candidate", candidate);
+    // console.log("type", type);
+
     const room = this.rooms.get(roomId);
     if (!room) {
       return;
     }
+
     const receivingUser =
       room.user1.socket.id === senderSocketId ? room.user1 : room.user2;
-    receivingUser.socket.send("add-ice-candidate", { candidate, type });
+    receivingUser.socket.emit("add-ice-candidate", { candidate, type });
   }
+
   generate() {
     return GLBOAL_ROOM_ID++;
   }
